@@ -1,0 +1,206 @@
+-- if you manage to get the source of this enjoy <3
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local UserInputService = game:GetService("UserInputService")
+local GroupService = game:GetService("GroupService")
+local TweenService = game:GetService("TweenService")
+local HttpService = game:GetService("HttpService")
+local RunService = game:GetService("RunService")
+local StarterGui = game:GetService("StarterGui")
+local Players = game:GetService("Players")
+local CoreGui = game:GetService("CoreGui")
+local Chat = game:GetService("Chat")
+
+local UtilsLib = Instance.new("ScreenGui")
+local NotificationHolder = Instance.new("Frame")
+local Template = Instance.new("Frame")
+local UIGradient = Instance.new("UIGradient")
+local UICorner = Instance.new("UICorner")
+local Icon = Instance.new("ImageLabel")
+local UICorner_2 = Instance.new("UICorner")
+local Title = Instance.new("TextLabel")
+local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
+local Desc = Instance.new("TextLabel")
+local UITextSizeConstraint_2 = Instance.new("UITextSizeConstraint")
+
+if RunService:IsStudio() then
+	CoreGui = StarterGui
+end
+
+function figureNotifs(Stack,Container)
+	local stacksize = 0
+	local i = #Stack
+	while i > 0 do
+		local gui = Stack[i]
+		if gui then
+			if stacksize == 0 then
+				stacksize = 0.07
+			else
+				stacksize = stacksize + 0.14
+			end
+			local desiredpos = UDim2.new(0.5,0,stacksize,0)
+			if gui.Position ~= desiredpos then
+				gui:TweenPosition(desiredpos,"Out","Quint",0.3,true)
+			end
+		end
+		i = i-1
+	end
+end
+
+local NotifStack = {}
+local Library = {}
+
+function Library:Load()
+    UtilsLib.Name = "UtilsLib"
+    UtilsLib.Parent = CoreGui
+    UtilsLib.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    NotificationHolder.Name = "NotificationHolder"
+    NotificationHolder.Parent = UtilsLib
+    NotificationHolder.AnchorPoint = Vector2.new(0.5, 0.5)
+    NotificationHolder.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    NotificationHolder.BackgroundTransparency = 1.000
+    NotificationHolder.BorderSizePixel = 0
+    NotificationHolder.Position = UDim2.new(0.915301919, 0, 0.465605736, 0)
+    NotificationHolder.Size = UDim2.new(0.168458849, 0, 0.907443583, 0)
+    NotificationHolder.ZIndex = 50
+    Template.Name = "Template"
+    Template.Parent = NotificationHolder
+    Template.AnchorPoint = Vector2.new(0.5, 0.5)
+    Template.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Template.Position = UDim2.new(0.5, 0, 0.0700000003, 0)
+    Template.Size = UDim2.new(1, 0, 0.131999999, 0)
+    Template.Visible = false
+    Template.ZIndex = 52
+    UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(61, 61, 61)), ColorSequenceKeypoint.new(0.26, Color3.fromRGB(52, 52, 52)), ColorSequenceKeypoint.new(0.52, Color3.fromRGB(39, 39, 39)), ColorSequenceKeypoint.new(0.82, Color3.fromRGB(31, 31, 31)), ColorSequenceKeypoint.new(0.97, Color3.fromRGB(25, 25, 25)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(24, 24, 24))}
+    UIGradient.Parent = Template
+    UICorner.Parent = Template
+    Icon.Name = "Icon"
+    Icon.Parent = Template
+    Icon.AnchorPoint = Vector2.new(0.5, 0.5)
+    Icon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Icon.BackgroundTransparency = 1.000
+    Icon.Position = UDim2.new(0.157963052, 0, 0.500888765, 0)
+    Icon.Size = UDim2.new(0.27467075, 0, 0.908030748, 0)
+    Icon.ZIndex = 53
+    Icon.Image = "rbxasset://textures/ui/GuiImagePlaceholder.png"
+    Icon.ScaleType = Enum.ScaleType.Fit
+    UICorner_2.Parent = Icon
+    Title.Name = "Title"
+    Title.Parent = Template
+    Title.AnchorPoint = Vector2.new(0.5, 0.5)
+    Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Title.BackgroundTransparency = 1.000
+    Title.Position = UDim2.new(0.651467562, 0, 0.258991748, 0)
+    Title.Size = UDim2.new(0.674570441, 0, 0.272512674, 0)
+    Title.ZIndex = 53
+    Title.Font = Enum.Font.GothamBold
+    Title.Text = "This is a very epic title"
+    Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Title.TextScaled = true
+    Title.TextSize = 14.000
+    Title.TextWrapped = true
+    UITextSizeConstraint.Parent = Title
+    UITextSizeConstraint.MaxTextSize = 14
+    Desc.Name = "Desc"
+    Desc.Parent = Template
+    Desc.AnchorPoint = Vector2.new(0.5, 0.5)
+    Desc.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Desc.BackgroundTransparency = 1.000
+    Desc.Position = UDim2.new(0.651467562, 0, 0.65485841, 0)
+    Desc.Size = UDim2.new(0.674570441, 0, 0.519220948, 0)
+    Desc.ZIndex = 53
+    Desc.Font = Enum.Font.Gotham
+    Desc.Text = "A long long long description of the notification."
+    Desc.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Desc.TextScaled = true
+    Desc.TextSize = 14.000
+    Desc.TextWrapped = true
+    Desc.TextYAlignment = Enum.TextYAlignment.Top
+    UITextSizeConstraint_2.Parent = Desc
+    UITextSizeConstraint_2.MaxTextSize = 14
+end
+
+function Library:GetExecutor()
+	local Exploit = is_sirhurt_closure and "Sirhurt" 
+	or pebc_execute and "ProtoSmasher" 
+	or syn and "Synapse X" 
+	or secure_load and "Sentinel" 
+	or KRNL_LOADED and "Krnl" 
+	or SONA_LOADED and "Sona" 
+	or "Unknown"
+	return Exploit
+end
+
+function Library:Notify(Content, Title, Image)
+	spawn(function()
+		local notificationContainer = notificationContainer
+		local Notification = notificationContainer:WaitForChild('Template')	
+		local notifClone = Notification:Clone()
+		local notifContent = notifClone:WaitForChild('Desc')
+		if not Image then
+			notifClone.Icon.Visible = false
+		else
+			notifClone.Icon.Image = Image
+		end
+		if Title then
+			notifClone.Title.Text = Title
+		else
+			notifClone.Title.Visible = false
+		end
+		notifContent.Text = Content
+		notifClone.Parent = notificationContainer
+		notifContent.TextScaled = false
+		notifClone.Name = 'Notification'
+		notifClone.Position = UDim2.new(0.5,0,0.07,0)
+		table.insert(NotifStack,notifClone)
+		figureNotifs(NotifStack,notificationContainer)
+		notifClone.Visible = true
+		wait(0.5)
+		TweenService:Create(notifClone, TweenInfo.new(0.35, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+		TweenService:Create(notifContent, TweenInfo.new(0.35, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+		TweenService:Create(notifClone.Title, TweenInfo.new(0.35, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+		TweenService:Create(notifClone.Icon, TweenInfo.new(0.35, Enum.EasingStyle.Quint), {ImageTransparency = 0}):Play()
+		wait(5)
+		for a,b in pairs(NotifStack) do
+			if b == notifClone then
+				table.remove(NotifStack,a)
+			end
+		end
+		wait(.5)
+		notifClone:TweenPosition(UDim2.new(.4, 0, notifClone.Position.Y.Scale, 0), "Out", "Quint",.4, true)
+		wait(.35)
+		notifClone:TweenPosition(UDim2.new(1.5, 0, notifClone.Position.Y.Scale, 0), "Out", "Quint",1.25, true)
+		TweenService:Create(notifClone, TweenInfo.new(0.8, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+		TweenService:Create(notifContent, TweenInfo.new(0.8, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+		TweenService:Create(notifClone.Title, TweenInfo.new(0.8, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+		TweenService:Create(notifClone.Icon, TweenInfo.new(0.8, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
+		wait(.305)
+		notifClone:Destroy()
+		figureNotifs(NotifStack,notificationContainer)
+	end)
+end
+
+function Library:PlaySound(id)
+	local sound = Instance.new("Sound", CoreGui)
+   	sound.SoundId = "rbxassetid://"..id
+	sound.Volume = 0.6
+	sound.PlayOnRemove = true
+    sound:Destroy()
+end
+
+function Library:Protect(obj) 
+	if RunService:IsStudio() then return end
+	if syn and syn.protect_gui then
+		syn.protect_gui(obj)
+		obj.Parent = CoreGui
+		Library:Notify("Synapse X has protected the interface from detection", "Protected!", "rbxassetid://3610254425")
+	elseif PROTOSMASHER_LOADED then
+		obj.Parent = get_hidden_gui()
+		Library:Notify("Protosmasher has protected the interface from detection", "Protected!", "rbxassetid://3610254425")
+	else
+		obj.Parent = CoreGui
+		Library:Notify("Your interface has not been protected, Wave Hub can be detected.", "Unprotected!", "rbxassetid://3610254229")
+	end
+end
+
+return Library

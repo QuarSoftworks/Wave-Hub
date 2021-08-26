@@ -1,0 +1,5 @@
+{
+    "6284583030":"https://wavehubdutch.000webhostapp.com/Games/PetSimX.txt",
+    "5865858426":"https://wavehubdutch.000webhostapp.com/Games/retail2.txt",
+    "U":"https://wavehubdutch.000webhostapp.com/Games/Universal.txt"
+} 
