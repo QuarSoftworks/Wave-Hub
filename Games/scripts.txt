@@ -2,7 +2,7 @@
     "6284583030":"https://raw.githubusercontent.com/QuarSoftworks/Wave-Hub/main/Games/PetSimX.txt",
     "5865858426":"https://raw.githubusercontent.com/QuarSoftworks/Wave-Hub/main/Games/retail2.txt",
     "5327880096":"https://raw.githubusercontent.com/QuarSoftworks/Wave-Hub/main/Games/OBS2.txt",
-
+    "5551657553":"https://raw.githubusercontent.com/QuarSoftworks/Wave-Hub/main/Games/BLGND.txt",
 
 
     "U":"https://raw.githubusercontent.com/QuarSoftworks/Wave-Hub/main/Games/Universal.txt"
